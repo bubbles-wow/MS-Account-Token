@@ -29,6 +29,7 @@ jobs:
         run: |
           git config --global user.email "917749218@qq.com"
           git config --global user.name "bubbles-wow"
+          git config --global core.askPass /usr/bin/true
           git clone https://github.com/bubbles-wow/MS-Account-Token.git MS-Account-Token
           copy ${{ github.workspace }}\CoreTool\token.cfg ${{ github.workspace }}\MS-Account-Token
           cd ${{ github.workspace }}\MS-Account-Token
