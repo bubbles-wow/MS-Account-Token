@@ -10,6 +10,12 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          token: ${{ secrets.PAT }}
+      
       - name: Download CoreTool
         run: |
           $url = "https://github.com/bubbles-wow/MS-Account-Token/releases/download/CoreTool/CoreTool.zip"
@@ -23,16 +29,13 @@ jobs:
         run: |
           cd ${{ github.workspace }}\CoreTool
           CoreTool.exe
+          copy ${{ github.workspace }}\CoreTool\token.cfg ${{ github.workspace }} /y
       
       - name: Update repo
         id: update
         run: |
           git config --global user.email "917749218@qq.com"
           git config --global user.name "bubbles-wow"
-          git config --global core.askPass /usr/bin/true
-          git clone https://github.com/bubbles-wow/MS-Account-Token.git MS-Account-Token
-          copy ${{ github.workspace }}\CoreTool\token.cfg ${{ github.workspace }}\MS-Account-Token
-          cd ${{ github.workspace }}\MS-Account-Token
           git add token.cfg
           git commit -m "Update token.cfg"
           git push
