@@ -1,0 +1,38 @@
+name: Update Token
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download CoreTool
+        run: |
+          $url = "https://github.com/bubbles-wow/MS-Account-Token/releases/download/CoreTool/CoreTool.zip"
+          $zipPath = ".\CoreTool.zip"
+          $extractPath = ".\"
+          Invoke-WebRequest -Uri $url -OutFile $zipPath
+          Expand-Archive -Path $zipPath -DestinationPath $extractPath
+
+      - name: Check Update
+        shell: cmd
+        run: |
+          cd ${{ github.workspace }}\CoreTool
+          CoreTool.exe
+      
+      - name: Update repo
+        id: update
+        run: |
+          git config --global user.email "917749218@qq.com"
+          git config --global user.name "bubbles-wow"
+          git clone https://github.com/bubbles-wow/MS-Account-Token.git MS-Account-Token
+          copy ${{ github.workspace }}\CoreTool\token.cfg ${{ github.workspace }}\MS-Account-Token /y
+          cd ${{ github.workspace }}\MS-Account-Token
+          git add token.cfg
+          git commit -m "Update token.cfg"
+          git push
