@@ -30,6 +30,8 @@ jobs:
           cd ${{ github.workspace }}\CoreTool
           CoreTool.exe
           dir
+          cd ${{ github.workspace }}
+          dir
           copy ${{ github.workspace }}\CoreTool\token.cfg ${{ github.workspace }} /y
       
       - name: Update repo
