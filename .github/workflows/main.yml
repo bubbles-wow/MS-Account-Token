@@ -18,7 +18,7 @@ jobs:
       
       - name: Download CoreTool
         run: |
-          $url = "https://github.com/bubbles-wow/MS-Account-Token/releases/download/CoreTool/CoreTool.zip"
+          $url = "https://github.com/bubbles-wow/Get-MS-Account-Token/releases/download/CoreTool/CoreTool.zip"
           $zipPath = ".\CoreTool.zip"
           $extractPath = ".\"
           Invoke-WebRequest -Uri $url -OutFile $zipPath
